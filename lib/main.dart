@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sudoku/home.dart';
+import 'package:sudoku/difficulty_selector.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: SudokuPage(),
+    home: DifficultySelectorPage(),
     debugShowCheckedModeBanner: false,
   ));
 }
