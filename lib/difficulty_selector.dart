@@ -12,6 +12,15 @@ class _DifficultySelectorPageState extends State<DifficultySelectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Sudoku',
+          style: TextStyle(
+            color: Colors.blueGrey
+          ),
+        ), 
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

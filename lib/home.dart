@@ -289,7 +289,12 @@ bool isSudokuComplete() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sudoku - ${getDifficultyName(widget.difficulty)}')
+        title: Text(
+          'Sudoku - ${getDifficultyName(widget.difficulty)}',
+          style: TextStyle(
+            color: Colors.blueGrey
+          ),
+        )
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
