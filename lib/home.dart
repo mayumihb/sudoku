@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SudokuPage extends StatefulWidget {
-  const SudokuPage({super.key});
+  final int difficulty;
+
+  const SudokuPage({super.key, required this.difficulty});
 
   @override
   State<SudokuPage> createState() => _SudokuPageState();
@@ -25,7 +27,7 @@ class _SudokuPageState extends State<SudokuPage> {
         int num = grid[row][col];
         if (num != 0) {
           if (seen.contains(num)) {
-            invalidCells.add([row, col]); // Adicionar célula inválida
+            invalidCells.add([row, col]);
           }
           seen.add(num);
         }
@@ -39,7 +41,7 @@ class _SudokuPageState extends State<SudokuPage> {
         int num = grid[row][col];
         if (num != 0) {
           if (seen.contains(num)) {
-            invalidCells.add([row, col]); // Adicionar célula inválida
+            invalidCells.add([row, col]);
           }
           seen.add(num);
         }
@@ -55,7 +57,7 @@ class _SudokuPageState extends State<SudokuPage> {
             int num = grid[blockRow + row][blockCol + col];
             if (num != 0) {
               if (seen.contains(num)) {
-                invalidCells.add([blockRow + row, blockCol + col]); // Adicionar célula inválida
+                invalidCells.add([blockRow + row, blockCol + col]);
               }
               seen.add(num);
             }
@@ -98,6 +100,11 @@ class _SudokuPageState extends State<SudokuPage> {
 
     return Center(
       child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+          )
+        ),
         width: gridSize,
         height: gridSize,
         child: GridView.builder(
@@ -120,10 +127,28 @@ class _SudokuPageState extends State<SudokuPage> {
                 });
               },
               child: Container(
-                margin: EdgeInsets.all(2.0),
+                margin: EdgeInsets.all(0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  color: isInvalid ? Colors.red[300] : (isSelected ? Colors.blue[100] : Colors.white), // Vermelho para inválidas
+                  // Define as bordas grossas para os quadrantes 3x3
+                  border: Border(
+                    top: BorderSide(
+                      width: row % 3 == 0 ? 3 : 1, // Borda mais grossa para as divisões superiores dos blocos 3x3
+                      color: Colors.black,
+                    ),
+                    left: BorderSide(
+                      width: col % 3 == 0 ? 3 : 1, // Borda mais grossa para as divisões esquerdas dos blocos 3x3
+                      color: Colors.black,
+                    ),
+                    right: BorderSide(
+                      width: (col + 1) % 3 == 0 ? 3 : 1, // Borda mais grossa à direita nos limites dos blocos
+                      color: Colors.black,
+                    ),
+                    bottom: BorderSide(
+                      width: (row + 1) % 3 == 0 ? 3 : 1, // Borda mais grossa inferior nos limites dos blocos
+                      color: Colors.black,
+                    ),
+                  ),
+                  color: isInvalid ? Colors.red[300] : (isSelected ? Colors.blue[100] : Colors.white),
                 ),
                 child: Center(
                   child: Text(
@@ -152,7 +177,7 @@ class _SudokuPageState extends State<SudokuPage> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
           ),
-          itemCount: 10, // Os números de 0 a 9
+          itemCount: 10,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
@@ -170,10 +195,16 @@ class _SudokuPageState extends State<SudokuPage> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Center(
-                  child: Text(
-                    index.toString(),
-                    style: TextStyle(color: Colors.white, fontSize: cellSize * 0.4),
-                  ),
+                  child: index == 0 // Se o índice for 0, exibe a imagem
+                      ? Image.asset(
+                          'assets/images/borracha.png', // Caminho da imagem
+                          width: cellSize * 0.6, // Ajuste o tamanho conforme necessário
+                          height: cellSize * 0.6, // Ajuste o tamanho conforme necessário
+                        )
+                      : Text(
+                          index.toString(),
+                          style: TextStyle(color: Colors.white, fontSize: cellSize * 0.4),
+                        ),
                 ),
               ),
             );
